@@ -17,14 +17,17 @@ function buttonTakeLoanPressed(){
  loanAmount = parseInt(loanAmount);
 
  if(loanAmount<(moneyInBank*2) && bankLoan == false){
+    alert("Loan successful");
  bankLoan = true;
  loanElement.innerText = loanAmount;
+
+ //crete new button to repai loan
  }
  else {
+    alert("Loan unsuccessful")
+    loanAmount = 0;
     bankLoan = false;
  }
-
- console.log(loanAmount);
 };
 
 
@@ -37,6 +40,11 @@ function buttonMoneyToBankPressed(){
         moneyInBank += moneyInWallet-(moneyInWallet/10);
         loanAmount -=(moneyInWallet/10)
         moneyInWallet = 0;
+        if (loanAmount <= 0){
+            moneyInBank -=loanAmount;
+            loanAmount = 0;
+            bankLoan = false;
+        };
         moneyBankElement.innerText = moneyInBank;
         moneyWalletElement.innerText = moneyInWallet;
         loanElement.innerText = loanAmount;
