@@ -3,6 +3,7 @@ const buttonMoneyToBank = document.getElementById("moneyToBank");
 const buttonAdd = document.getElementById("add");
 const buttonTakeLoan = document.getElementById("takeLoan");
 const selectComputer = document.getElementById("computer");
+const titleElement = document.getElementById("title");
 const descriptionElement = document.getElementById("description");
 const specsElement = document.getElementById("specs");
 const priceElement = document.getElementById("price");
@@ -105,13 +106,13 @@ fetch("https://hickory-quilled-actress.glitch.me/computers")
 
 const addComputersToSelecter = (computers) => {
     computers.forEach(x => addComputerToSelecter(x));
-    selectComputer.innerText = computers[0].title;
+    titleElement.innerText = computers[0].title;
     descriptionElement.innerText = computers[0].description;
     specsElement.innerText = computers[0].specs;
     priceElement.innerText = computers[0].price;
     stockElement.innerText = computers[0].stock;
     activeElement.innerText = computers[0].active;
-    imageElement.innerText = computers[0].image;
+    imageElement.src = "https://hickory-quilled-actress.glitch.me/assets/images/1.png"
 }
 const addComputerToSelecter = (computer) => {
     const computerElement = document.createElement("option");
@@ -122,17 +123,23 @@ const addComputerToSelecter = (computer) => {
 
 const computerMenuChange = e => {
     const selectedComputer = computers[e.target.selectedIndex];
+    titleElement.innerText = selectedComputer.title;
     descriptionElement.innerText = selectedComputer.description;
     specsElement.innerText = selectedComputer.specs;
     priceElement.innerText = selectedComputer.price;
     stockElement.innerText = selectedComputer.stock;
     activeElement.innerText = selectedComputer.active;
-    imageElement.image = "https://hickory-quilled-actress.glitch.me/" + selectedComputer.image;
+    if (selectComputer.selectedIndex == 4){
+        imageElement.src = "https://hickory-quilled-actress.glitch.me/assets/images/5.png"
+    }
+    else{
+    imageElement.src = "https://hickory-quilled-actress.glitch.me/" + selectedComputer.image;
+    }
 }
 
-const addComputer = () => {
-    const selectedComputer = computers[computerElement.selectedIndex]
-}
+// const addComputer = () => {
+//     const selectedComputer = computers[computerElement.selectedIndex]
+// }
 
 buttonTakeLoan.addEventListener("click", buttonTakeLoanPressed);
 buttonWork.addEventListener("click", buttonWorkPressed);
