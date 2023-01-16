@@ -2,7 +2,13 @@ const buttonWork = document.getElementById("work");
 const buttonMoneyToBank = document.getElementById("moneyToBank");
 const buttonAdd = document.getElementById("add");
 const buttonTakeLoan = document.getElementById("takeLoan");
-const selectComputers = document.getElementById("computers");
+const selectComputer = document.getElementById("computer");
+const descriptionElement = document.getElementById("description");
+const specsElement = document.getElementById("specs");
+const priceElement = document.getElementById("price");
+const stockElement = document.getElementById("stock");
+const activeElement = document.getElementById("active");
+const imageElement = document.getElementById("image");
 const buttonPayBackLoanPosition = document.getElementById("payBackLoanPosition");
 
 let moneyBankElement = document.getElementById("moneyBank");
@@ -14,6 +20,7 @@ let loanAmount = 0;
 let userInput = 0;
 let bankLoan = false;
 let buttonPayBackLoan;
+let computers = [];
 
 function buttonTakeLoanPressed(){
  userInput = window.prompt("How much would you like to loan?");
@@ -90,6 +97,44 @@ function buttonMoneyToBankPressed(){
     }
 };
 
+fetch("https://hickory-quilled-actress.glitch.me/computers")
+    .then(Response => Response.json())
+    .then(information => computers = information)
+    .then(computers => addComputersToSelecter(computers))
+
+
+const addComputersToSelecter = (computers) => {
+    computers.forEach(x => addComputerToSelecter(x));
+    selectComputer.innerText = computers[0].title;
+    descriptionElement.innerText = computers[0].description;
+    specsElement.innerText = computers[0].specs;
+    priceElement.innerText = computers[0].price;
+    stockElement.innerText = computers[0].stock;
+    activeElement.innerText = computers[0].active;
+    imageElement.innerText = computers[0].image;
+}
+const addComputerToSelecter = (computer) => {
+    const computerElement = document.createElement("option");
+    computerElement.value = computer.id;
+    computerElement.appendChild(document.createTextNode(computer.title));
+    selectComputer.appendChild(computerElement);    
+}
+
+const computerMenuChange = e => {
+    const selectedComputer = computers[e.target.selectedIndex];
+    descriptionElement.innerText = selectedComputer.description;
+    specsElement.innerText = selectedComputer.specs;
+    priceElement.innerText = selectedComputer.price;
+    stockElement.innerText = selectedComputer.stock;
+    activeElement.innerText = selectedComputer.active;
+    imageElement.image = "https://hickory-quilled-actress.glitch.me/" + selectedComputer.image;
+}
+
+const addComputer = () => {
+    const selectedComputer = computers[computerElement.selectedIndex]
+}
+
 buttonTakeLoan.addEventListener("click", buttonTakeLoanPressed);
 buttonWork.addEventListener("click", buttonWorkPressed);
 buttonMoneyToBank.addEventListener("click", buttonMoneyToBankPressed);
+selectComputer.addEventListener("change",computerMenuChange);
