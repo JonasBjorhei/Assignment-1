@@ -1,6 +1,6 @@
 const buttonWork = document.getElementById("work");
 const buttonMoneyToBank = document.getElementById("moneyToBank");
-const buttonAdd = document.getElementById("add");
+const buttonBuyComputer = document.getElementById("buyComputer");
 const buttonTakeLoan = document.getElementById("takeLoan");
 const selectComputer = document.getElementById("computer");
 const titleElement = document.getElementById("title");
@@ -23,7 +23,7 @@ let bankLoan = false;
 let buttonPayBackLoan;
 let computers = [];
 
-function buttonTakeLoanPressed(){
+const buttonTakeLoanPressed = () => {
  userInput = window.prompt("How much would you like to loan?");
  userInput = parseInt(userInput);
 
@@ -32,6 +32,8 @@ function buttonTakeLoanPressed(){
  bankLoan = true;
  loanAmount = userInput;
  loanElement.innerText = loanAmount;
+ moneyInBank += loanAmount;
+ moneyBankElement.innerText = moneyInBank;
 
     if(buttonPayBackLoan == null){
      buttonPayBackLoan = document.createElement("button");
@@ -50,7 +52,7 @@ function buttonTakeLoanPressed(){
     }
 };
 
-function buttonPayBackLoanPressed(){
+const buttonPayBackLoanPressed = () =>{
     if(moneyInWallet >= loanAmount){
     moneyInWallet -=loanAmount;
     loanAmount =0;
@@ -70,11 +72,11 @@ function buttonPayBackLoanPressed(){
 }
 
 
-function buttonWorkPressed(){
+ const buttonWorkPressed = () => {
     moneyWalletElement.innerText = moneyInWallet +=100; 
 };
 
-function buttonMoneyToBankPressed(){
+const buttonMoneyToBankPressed = () => {
     if(bankLoan == true){
         moneyInBank += moneyInWallet-(moneyInWallet/10);
         loanAmount -=(moneyInWallet/10)
@@ -137,11 +139,28 @@ const computerMenuChange = e => {
     }
 }
 
-// const addComputer = () => {
-//     const selectedComputer = computers[computerElement.selectedIndex]
-// }
+const buyComputer = () => {
+    const selectedComputer = computers[selectComputer.selectedIndex]
+    if (selectedComputer.price < moneyInBank && selectedComputer.stock >0){
+        moneyInBank -= selectedComputer.price;
+        moneyBankElement.innerText = moneyInBank;
+        alert("You successfully bought the " + selectedComputer.title+"!");
+        stockElement.innerText = selectedComputer.stock -=1;
+        if(selectedComputer.stock <=0){
+            selectedComputer.active = false;
+            activeElement.innerText = selectedComputer.active
+        }  
+    }
+    else if (selectedComputer.stock <=0){
+        alert("There is no " + selectedComputer.title + " in stock!")
+    }
+    else {
+        alert("You do not have enough money in the bank to complete this transaction");
+    }
+}
 
 buttonTakeLoan.addEventListener("click", buttonTakeLoanPressed);
 buttonWork.addEventListener("click", buttonWorkPressed);
 buttonMoneyToBank.addEventListener("click", buttonMoneyToBankPressed);
 selectComputer.addEventListener("change",computerMenuChange);
+buttonBuyComputer.addEventListener("click",buyComputer);
