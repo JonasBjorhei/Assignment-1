@@ -54,10 +54,8 @@ const buttonTakeLoanPressed = () => {
 //enables and shows the button when you take a loan
     else {
     alert("Loan unsuccessful")
-    buttonPayBackLoan.disabled =true;
-    buttonPayBackLoan.style.visibility = "hidden";
     }
-// disables and hides the pay back loan button
+// alerts the user the loan was unsuccessful
 };
 
 const buttonPayBackLoanPressed = () =>{
